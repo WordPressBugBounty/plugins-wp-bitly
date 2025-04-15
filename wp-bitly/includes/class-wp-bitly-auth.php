@@ -81,6 +81,10 @@ class Wp_Bitly_Auth {
      */
     public function disconnect() 
     {
+        // Check if user is an administrator
+        if (!current_user_can('manage_options')) {
+            wp_die(json_encode(['status' => 'error', 'message' => 'Unauthorized access.']));
+        }
 
         $wp_nonce = $_REQUEST['nonce'] ?? '';
         $valid_nonce = wp_verify_nonce( $wp_nonce, 'bitly_disconnect' );
@@ -107,6 +111,11 @@ class Wp_Bitly_Auth {
      */
     public function get_token() 
     {
+        // Check if user is an administrator
+        if (!current_user_can('manage_options')) {
+            wp_die(json_encode(['status' => 'error', 'message' => 'Unauthorized access.']));
+        }
+
         if( !isset( $_POST['code'] ) || !$_POST['code'] ) {
             $response = array(
                 'status' => 'error',

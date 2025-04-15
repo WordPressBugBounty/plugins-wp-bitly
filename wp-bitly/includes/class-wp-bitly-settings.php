@@ -65,7 +65,7 @@ class Wp_Bitly_Settings {
         function _f_settings_section()
         {
             $url = 'https://bitly.com/a/sign_up';
-            echo '<p>' . sprintf(__('You will need a Bitly account to use this plugin. If you do not already have one, sign up <a href="%s">here</a>.', 'wp-bitly'), $url) . '</p>';
+            echo '<p>' . esc_attr__('You will need a Bitly account to use this plugin. If you do not already have one, sign up ', 'wp-bitly') . sprintf('<a href="%s">here.</a>', esc_url($url)) . '</p>';
         }
 
 
@@ -99,7 +99,26 @@ class Wp_Bitly_Settings {
                 $output .= sprintf('<a href="%s" id="disconnect_button" class="button button-danger confirm-disconnect hidden" style="display:none;">%s</a>', $disconnect_url, __('Disconnect', 'wp-bitly'));
             }
 
-            echo $output;
+            $allowed_html = array(
+                'a' => array(
+                    'href' => array(),
+                    'id' => array(),
+                    'class' => array(),
+                    'style' => array(),
+                    'data-wp_nonce' => array(),
+                ),
+                'label' => array(
+                    'for' => array(),
+                ),
+                'span' => array(
+                    'class' => array(),
+                ),
+                'img' => array(
+                    'src' => array(),
+                ),
+            );
+
+            echo wp_kses($output, $allowed_html);
 
         }
 
@@ -115,7 +134,25 @@ class Wp_Bitly_Settings {
             $output .= '<p class="description">' . __('This field should auto-populate after using the authorization button above.', 'wp-bitly') . '<br>';
             $output .= __('If this field remains empty, please disconnect and attempt to authorize again.', 'wp-bitly') . '</p>';
 
-            echo $output;
+            $allowed_html = array(
+                'input' => array(
+                    'type' => array(),
+                    'size' => array(),
+                    'id' => array(),
+                    'name' => array(),
+                    'value' => array(),
+                    'class' => array(),
+                ),
+                'label' => array(
+                    'for' => array(),
+                ),
+                'p' => array(
+                    'class' => array(),
+                ),
+                'br' => array(),
+            );
+            
+            echo wp_kses($output, $allowed_html);
 
         }
 
@@ -137,8 +174,28 @@ class Wp_Bitly_Settings {
             $output .= '<p class="description">' . __('Shortlinks will automatically be generated for the selected post types.', 'wp-bitly') . '</p>';
             $output .= '</fieldset>';
 
-            echo $output;
-
+            $allowed_html = array(
+                'fieldset' => array(),
+                'legend' => array(
+                    'class' => array(),
+                ),
+                'label' => array(
+                    'for' => array(),
+                ),
+                'input' => array(
+                    'type' => array(),
+                    'name' => array(),
+                    'value' => array(),
+                    'checked' => array(),
+                ),
+                'p' => array(
+                    'class' => array(),
+                ),
+                'br' => array(),
+                'span' => array(),
+            );
+            
+            echo wp_kses($output, $allowed_html);
         }
         
         add_settings_field('default_org', '<label for="post_types">' . __('Default Organization', 'wp-bitly') . '</label>', '_f_settings_field_default_org', 'writing', 'wpbitly_settings', array($this->wp_bitly_options,$this));
@@ -159,7 +216,32 @@ class Wp_Bitly_Settings {
             $output .= $wp_bitly_settings->get_org_options($wp_bitly_options->get_option('oauth_token'));
             $output .= "</select>";
             $output .= '</fieldset>';
-            echo $output;
+
+            $allowed_html = array(
+                'a' => array(
+                    'id' => array(),
+                ),
+                'fieldset' => array(
+                    'class' => array(),
+                    'style' => array(),
+                ),
+                'legend' => array(
+                    'class' => array(),
+                ),
+                'label' => array(
+                    'for' => array(),
+                ),
+                'select' => array(
+                    'name' => array(),
+                    'id' => array(),
+                ),
+                'option' => array(
+                    'value' => array(),
+                    'selected' => array(),
+                ),
+                'span' => array(),
+            );
+            echo wp_kses($output, $allowed_html);
         }
         
         add_settings_field('default_group', '<label for="post_types">' . __('Default Group', 'wp-bitly') . '</label>', '_f_settings_field_default_group', 'writing', 'wpbitly_settings', array($this->wp_bitly_options,$this));
@@ -179,9 +261,32 @@ class Wp_Bitly_Settings {
             $output .= "</select>";
             $output .= '<p class="description">' . __('If no default group is selected, the default group setting on your Bitly account will be used.', 'wp-bitly') . '</p>';
             $output .= '</fieldset>';
-            echo $output;
-            
-            
+
+            $allowed_html = array(
+                'fieldset' => array(
+                    'class' => array(),
+                    'style' => array(),
+                ),
+                'legend' => array(
+                    'class' => array(),
+                ),
+                'select' => array(
+                    'name' => array(),
+                    'id' => array(),
+                ),
+                'label' => array(
+                    'for' => array(),
+                ),
+                'p' => array(
+                    'class' => array(),
+                ),
+                'option' => array(
+                    'value' => array(),
+                    'selected' => array(),
+                ),
+                'span' => array(),
+            );
+            echo wp_kses($output, $allowed_html); 
         }
         
         add_settings_field('default_domain', '<label for="post_types">' . __('Default Domain', 'wp-bitly') . '</label>', '_f_settings_field_default_domain', 'writing', 'wpbitly_settings', array($this->wp_bitly_options,$this));
@@ -201,8 +306,32 @@ class Wp_Bitly_Settings {
             $output .= "</select>";
             $output .= '<p class="description">' . __('If you do not have any additional domains on your account, the default bit.ly domain will be the only option.', 'wp-bitly') . '</p>';
             $output .= '</fieldset>';
-            echo $output;
-            
+
+            $allowed_html = array(
+                'fieldset' => array(
+                    'class' => array(),
+                    'style' => array(),
+                ),
+                'legend' => array(
+                    'class' => array(),
+                ),
+                'label' => array(
+                    'for' => array(),
+                ),
+                'select' => array(
+                    'name' => array(),
+                    'id' => array(),
+                ),
+                'p' => array(
+                    'class' => array(),
+                ),
+                'option' => array(
+                    'value' => array(),
+                    'selected' => array(),
+                ),
+                'span' => array(),
+            );
+            echo wp_kses($output, $allowed_html);
         }
         
         
@@ -222,8 +351,34 @@ class Wp_Bitly_Settings {
             $output .= sprintf(__("If you're having issues generating shortlinks, turn this on and create a thread in the <a href=\"%s\">support forums</a>.", 'wp-bitly'), $url);
             $output .= '</p></fieldset>';
 
-            echo $output;
-
+            $allowed_html = array(
+                'fieldset' => array(),
+                'legend' => array(
+                    'class' => array(),
+                ),
+                'label' => array(
+                    'for' => array(),
+                    'title' => array(),
+                ),
+                'input' => array(
+                    'type' => array(),
+                    'id' => array(),
+                    'name' => array(),
+                    'value' => array(),
+                    'checked' => array(),
+                ),
+                'span' => array(
+                    'class' => array(),
+                ),
+                'p' => array(
+                    'class' => array(),
+                ),
+                'a' => array(
+                    'href' => array(),
+                ),
+                'br' => array(),
+            );
+            echo wp_kses($output, $allowed_html);
         }
 
     }
@@ -240,6 +395,10 @@ class Wp_Bitly_Settings {
 */
     
     public function get_org_options($current_token){
+        // Check if user is an administrator
+        if (wp_doing_ajax() && !current_user_can('manage_options')) {
+            wp_die(json_encode(['status' => 'error', 'message' => 'Unauthorized access.']));
+        }
 
         if( wp_doing_ajax() ) {
             $token = sanitize_text_field( $_POST['token'] );
@@ -262,11 +421,17 @@ class Wp_Bitly_Settings {
             }
             $output .= "<option value = '$guid' $selected >$name</option>";
         }
+        $allowed_html = array(
+            'option' => array(
+                'value' => array(),
+                'selected' => array(),
+            ),
+        );
         if( wp_doing_ajax() ) {
-            echo $output;
+            echo wp_kses($output, $allowed_html);
             die();
         } else {
-            return $output;
+            return $output;;
         }
 }
     
@@ -284,6 +449,10 @@ class Wp_Bitly_Settings {
 */
     
     public function get_group_options( $current_default_org = '' ) {
+        // Check if user is an administrator
+        if (wp_doing_ajax() && !current_user_can('manage_options')) {
+            wp_die(json_encode(['status' => 'error', 'message' => 'Unauthorized access.']));
+        }
 
         if( wp_doing_ajax() ) {
             $org = sanitize_text_field( $_POST['curr_org'] );
@@ -319,8 +488,14 @@ class Wp_Bitly_Settings {
             }
             $output .= "<option value='$group_guid' $selected >$group_name</option>";
         }
+        $allowed_html = array(
+            'option' => array(
+                'value' => array(),
+                'selected' => array(),
+            ),
+        );
         if( wp_doing_ajax() ) {
-            echo $output;
+            echo wp_kses($output, $allowed_html);
             die();
         } else {
             return $output;
@@ -341,6 +516,10 @@ class Wp_Bitly_Settings {
 */
     
     public function get_domain_options($current_default_group = ''){
+        // Check if user is an administrator
+        if (wp_doing_ajax() && !current_user_can('manage_options')) {
+            wp_die(json_encode(['status' => 'error', 'message' => 'Unauthorized access.']));
+        }
 
         if( wp_doing_ajax() ) {
             $group_id = sanitize_text_field( $_POST['curr_group'] );
@@ -350,8 +529,15 @@ class Wp_Bitly_Settings {
         $current_default_domain = $this->wp_bitly_options->get_option( 'default_domain' );
         if( !$group_id ) {
             $output = "<option value='bit.ly'>bit.ly</option>";
+            
+            $allowed_html = array(
+                'option' => array(
+                    'value' => array(),
+                    'selected' => array(),
+                ),
+            );
             if( wp_doing_ajax() ) {
-                echo $output;
+                echo wp_kses($output, $allowed_html);
                 die(); 
             } else {
                 return $output;
@@ -371,8 +557,14 @@ class Wp_Bitly_Settings {
             }
             
         }
+        $allowed_html = array(
+            'option' => array(
+                'value' => array(),
+                'selected' => array(),
+            ),
+        );
         if( wp_doing_ajax() ) {
-            echo $output;
+            echo wp_kses($output, $allowed_html);
             die();
         } else {
             return $output;

@@ -100,7 +100,7 @@ class Wp_Bitly_Metabox {
 
             
 
-            echo '<input type="hidden" id="shortlink" value="'.$shortlink.'" />';
+            echo '<input type="hidden" id="shortlink" value="'. esc_url($shortlink) .'" />';
 
 
             // Retrieve lifetime total
@@ -129,8 +129,6 @@ class Wp_Bitly_Metabox {
             }
 
             $highest_clicks = max($data_arr);
-
-            $labels_js = '"' . implode('","', $labels_arr) . '"';
             $data_js = implode(',', $data_arr);
 
             if ($highest_clicks < 10) {
@@ -147,13 +145,13 @@ class Wp_Bitly_Metabox {
             }      
 
 
-            echo '<label class="screen-reader-text">' . __('WP Bitly Statistics &amp; Administration', 'wp-bitly') . '</label>';
+            echo '<label class="screen-reader-text">' . esc_attr__('WP Bitly Statistics &amp; Administration', 'wp-bitly') . '</label>';
 
             if (isset($totalclicks) && isset($clicks)) {
 
                 echo '<div class="wpbitly-clicks">';
-                echo '<p>' . __('Clicks Today', 'wp-bitly') . ' <span>' . number_format($clicks[0]['clicks']) . '</span></p>';
-                echo '<p>' . __('Clicks Over Time', 'wp-bitly') . ' <span>' . number_format($totalclicks) . '</span></p>';
+                echo '<p>' . esc_attr__('Clicks Today', 'wp-bitly') . ' <span>' . number_format($clicks[0]['clicks']) . '</span></p>';
+                echo '<p>' . esc_attr__('Clicks Over Time', 'wp-bitly') . ' <span>' . number_format($totalclicks) . '</span></p>';
                 echo '</div>';
 
                 require(WPBITLY_DIR . '/admin/partials/wp-bitly-admin-metabox.php');
@@ -161,7 +159,7 @@ class Wp_Bitly_Metabox {
 
             } else {
 
-                echo '<p class="error">' . __('There was a problem retrieving information about your link. There may be no statistics yet.', 'wp-bitly') . '</p>';
+                echo '<p class="error">' . esc_attr__('There was a problem retrieving information about your link. There may be no statistics yet.', 'wp-bitly') . '</p>';
                 require(WPBITLY_DIR . '/admin/partials/wp-bitly-admin-metabox-regenerate.php');
             }
         }else{

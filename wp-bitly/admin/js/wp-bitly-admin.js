@@ -71,6 +71,7 @@ var windowFeatures = "menubar=0,location=0,resizable=yes,toolbar=0,scrollbars=ye
                 console.log( 'sendData' );
                 var sendData = {
                     action:'wpbitly_oauth_disconnect',
+                    nonce: nonce
                 };
 
                 $.ajax({
